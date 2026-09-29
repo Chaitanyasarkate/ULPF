@@ -812,7 +812,7 @@ def main() -> int:
         app.run(
             host=settings.core.app_host,
             port=settings.core.app_port,
-            threaded=False,
+            threaded=True,
         )
     except KeyboardInterrupt:
         log.info("API server stopped by user")

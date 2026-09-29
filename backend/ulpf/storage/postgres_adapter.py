@@ -141,7 +141,7 @@ class PostgresAdapter:
 
     def _get_dsn(self) -> str:
         """Build the connection string."""
-        return f"host={self.host} port={self.port} dbname={self.db} user={self.user} password={self.password}"
+        return f"host={self.host} port={self.port} dbname={self.db} user={self.user} password={self.password} connect_timeout=2"
 
     @property
     def pool(self) -> pool.ThreadedConnectionPool:
