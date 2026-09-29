@@ -19,6 +19,7 @@ import sys
 from typing import Any
 
 from flask import Flask, jsonify, request as flask_request
+from flask_cors import CORS
 
 from ulpf.api.schema import register_schema_blueprint
 from ulpf.api.sources import register_sources_blueprint
@@ -49,6 +50,7 @@ _ingestion_kafka_publisher = KafkaPublisher()
 def create_api_app() -> Flask:
     """Create and configure the complete ULPF Flask API application."""
     app = Flask(__name__)
+    CORS(app, resources={r"/*": {"origins": "*"}})
 
     app.config["JSON_SORT_KEYS"] = False
 
