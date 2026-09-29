@@ -63,7 +63,7 @@ def _get_bool(key: str, default: bool) -> bool:
 class CoreConfig:
     env: str = field(default_factory=lambda: _get("ULPF_ENV", "development"))
     app_host: str = field(default_factory=lambda: _get("ULPF_APP_HOST", "0.0.0.0"))
-    app_port: int = field(default_factory=lambda: _get_int("ULPF_APP_PORT", 5000))
+    app_port: int = field(default_factory=lambda: _get_int("PORT", _get_int("ULPF_APP_PORT", 5000)))
     log_level: str = field(default_factory=lambda: _get("ULPF_LOG_LEVEL", "INFO").upper())
 
 
