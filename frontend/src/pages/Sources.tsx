@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Plus, RefreshCw, Power, Pencil, Trash2, X } from 'lucide-react';
-import { Card, Badge, DataTable, LoadingState, ErrorState, EmptyState } from '../components';
+import { Plus, RefreshCw, Power, Trash2 } from 'lucide-react';
+import { Card, Badge, DataTable, LoadingState, ErrorState } from '../components';
 import { sourcesApi, type SourceProfile, type SourceCreateRequest } from '../api';
 
 export function SourcesPage() {

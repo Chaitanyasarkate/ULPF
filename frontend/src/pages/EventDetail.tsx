@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, CheckCircle, XCircle, AlertTriangle, Eye, ChevronDown, ChevronRight, Copy, Download } from 'lucide-react';
+import { ArrowLeft, CheckCircle, XCircle, AlertTriangle, Eye, ChevronDown, Copy, Download } from 'lucide-react';
 import { Card, Badge, LoadingState, ErrorState } from '../components';
 import { lineageApi } from '../api';
 import type { LineageVerification, RawEventRecovery, LineageChain } from '../api';
@@ -175,23 +175,23 @@ export function EventDetailPage() {
           <div className="space-y-3">
             <div className="flex justify-between">
               <span className="text-gray-400">Source IP</span>
-              <span className="font-mono">{(event?.ocsf as Record<string, unknown>)?.source?.ip as string || '—'}</span>
+              <span className="font-mono">{((event?.ocsf as any)?.source?.ip as string) || '—'}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-400">Source Port</span>
-              <span>{(event?.ocsf as Record<string, unknown>)?.source?.port as number || '—'}</span>
+              <span>{((event?.ocsf as any)?.source?.port as number) || '—'}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-400">Destination IP</span>
-              <span className="font-mono">{(event?.ocsf as Record<string, unknown>)?.destination?.ip as string || '—'}</span>
+              <span className="font-mono">{((event?.ocsf as any)?.destination?.ip as string) || '—'}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-400">Destination Port</span>
-              <span>{(event?.ocsf as Record<string, unknown>)?.destination?.port as number || '—'}</span>
+              <span>{((event?.ocsf as any)?.destination?.port as number) || '—'}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-400">Protocol</span>
-              <span>{(event?.ocsf as Record<string, unknown>)?.network?.protocol as string || '—'}</span>
+              <span>{((event?.ocsf as any)?.network?.protocol as string) || '—'}</span>
             </div>
           </div>
         </Card>
@@ -200,14 +200,14 @@ export function EventDetailPage() {
           <div className="space-y-3">
             <div className="flex justify-between">
               <span className="text-gray-400">Action</span>
-              <Badge variant={(event?.ocsf as Record<string, unknown>)?.event?.action === 'allow' ? 'success' : 'error'}>
-                {(event?.ocsf as Record<string, unknown>)?.event?.action as string || 'unknown'}
+              <Badge variant={(event?.ocsf as any)?.event?.action === 'allow' ? 'success' : 'error'}>
+                {((event?.ocsf as any)?.event?.action as string) || 'unknown'}
               </Badge>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-400">Severity</span>
               <Badge variant="warning">
-                {(event?.ocsf as Record<string, unknown>)?.event?.severity as string || 'unknown'}
+                {((event?.ocsf as any)?.event?.severity as string) || 'unknown'}
               </Badge>
             </div>
           </div>

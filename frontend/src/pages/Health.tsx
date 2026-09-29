@@ -35,7 +35,7 @@ export function HealthPage() {
     try {
       const [healthRes, lineageHealthRes, sourcesRes] = await Promise.allSettled([
         healthApi.getSystemHealth(),
-        lineageApi.getHealth().catch(() => ({ status: 'unhealthy' })),
+        lineageApi.getHealth().catch(() => ({ status: 'unhealthy', dependencies: {} as Record<string, unknown> })),
         sourcesApi.listSources().catch(() => ({ sources: [], count: 0 })),
       ]);
 
@@ -59,7 +59,7 @@ export function HealthPage() {
         const idx = serviceStatuses.findIndex((s) => s.name === 'Lineage Service');
         if (idx !== -1) {
           serviceStatuses[idx].status = lineageHealthRes.value.status === 'healthy' ? 'healthy' : 'degraded';
-          serviceStatuses[idx].details = lineageHealthRes.value.dependencies;
+          serviceStatuses[idx].details = (lineageHealthRes.value as any).dependencies;
         }
       }
 
