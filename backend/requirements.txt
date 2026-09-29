@@ -6,9 +6,12 @@
 Flask==3.0.3
 Flask-Cors==5.0.0
 flask-sock==0.5.2        # WebSockets for live dashboard push (Phase 7)
+gunicorn>=21.2.0
 
-# Configuration
+# Configuration & Utilities
 python-dotenv==1.0.1
+requests>=2.31.0
+pydantic>=2.0.0
 
 # Streaming (Kafka client)
 kafka-python>=2.0.2
@@ -17,6 +20,7 @@ kafka-python>=2.0.2
 opensearch-py==2.7.1
 minio==7.2.20
 psycopg2-binary==2.9.10  # PostgreSQL driver
+asyncpg>=0.29.0          # Async PostgreSQL driver
 
 # Normalization & parsing
 PyYAML==6.0.3
