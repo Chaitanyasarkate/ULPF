@@ -66,6 +66,25 @@ def create_api_app() -> Flask:
     _register_ingestion_blueprint(app)
     _register_failures_blueprint(app)
 
+    @app.route("/", methods=["GET", "HEAD"])
+    def root_status():
+        return jsonify({
+            "service": "ULPF REST API Gateway",
+            "status": "online",
+            "version": "1.0.0",
+            "endpoints": {
+                "health": "/api/v1/health",
+                "sources": "/api/v1/sources",
+                "schema": "/api/v1/schema",
+                "lineage": "/api/v1/lineage",
+                "convert": "/api/v1/convert",
+                "events": "/api/v1/events",
+                "metrics": "/api/v1/metrics",
+                "simulators": "/api/v1/simulators",
+                "auth": "/api/v1/auth"
+            }
+        }), 200
+
     log.info("All API blueprints registered successfully")
     return app
 
