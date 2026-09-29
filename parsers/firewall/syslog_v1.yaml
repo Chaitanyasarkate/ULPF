@@ -1,0 +1,11 @@
+parser_id: firewall_syslog_v1
+parser_name: Firewall Syslog Parser v1
+source_type: firewall
+format: syslog
+parser_version: 1.0.0
+description: Parses Cisco ASA-style firewall syslog events
+enabled: true
+field_map:
+  action: ALLOW|DENY|DROP|ACCEPT
+  src_ip: src=([0-9.]+)
+  dst_ip: dst=([0-9.]+)

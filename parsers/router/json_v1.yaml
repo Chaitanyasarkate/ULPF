@@ -1,0 +1,11 @@
+parser_id: router_json_v1
+parser_name: Router JSON Parser v1
+source_type: router
+format: json
+parser_version: 1.0.0
+description: Parses router JSON log events
+enabled: true
+field_map:
+  timestamp: "timestamp"
+  src_ip: "src_ip"
+  dst_ip: "dst_ip"

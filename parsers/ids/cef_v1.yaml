@@ -1,0 +1,13 @@
+parser_id: ids_cef_v1
+parser_name: IDS CEF Parser v1
+source_type: ids
+format: cef
+parser_version: 1.0.0
+description: Parses IDS/IPS CEF log events
+enabled: true
+field_map:
+  vendor: device_vendor
+  product: device_product
+  signature_id: signature_id
+  name: name
+  severity: severity

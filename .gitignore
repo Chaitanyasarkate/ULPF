@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+*.egg
+build/
+dist/
+.eggs/
+*.manifest
+*.spec
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python test / coverage
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.kilo/
+.coverage
+htmlcov/
+.coverage.*
+*.cover
+.tox/
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Local environment / secrets (NEVER commit secrets)
+.env
+.env.*
+!*.example
+
+# Local runtime data (never commit generated runtime data)
+data/
+data-local/
+*.db
+*.db-shm
+*.db-wal
+*.log
+*.pid
+uploads/
+
+# Frontend build output
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Docker
+*.pid
+docker-compose.override.yml
+
+# OS / misc
+.project
+.classpath

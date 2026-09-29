@@ -1,0 +1,107 @@
+# ============================================================
+# ULPF - Universal Log Pre-processing Framework
+# Reference deployment for local development.
+#
+# Phase 0 provides the INFRASTRUCTURE layer (Kafka, MinIO,
+# OpenSearch, PostgreSQL). Application services are added in
+# the phases that implement them (see docs/phase-plan.md).
+# ============================================================
+name: ulpf
+
+services:
+  # ---------- Messaging backbone ----------
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.6.1
+    container_name: ulpf_zookeeper
+    restart: unless-stopped
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.1
+    container_name: ulpf_kafka
+    restart: unless-stopped
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    healthcheck:
+      test: [ "CMD-SHELL", "kafka-topics --bootstrap-server localhost:9092 --list 2>/dev/null || exit 1" ]
+      interval: 15s
+      timeout: 10s
+      retries: 6
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+
+  # ---------- Raw vault (lossless storage) ----
+  minio:
+    image: cgr.dev/chainguard/minio:latest
+    container_name: ulpf_minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 15s
+      timeout: 10s
+      retries: 6
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio_data:/data
+    depends_on:
+      - kafka
+
+  # ---------- Normalized, searchable store ----
+  opensearch:
+    image: opensearchproject/opensearch:2.11.1
+    container_name: ulpf_opensearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - DISABLE_SECURITY_PLUGIN=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1" ]
+      interval: 15s
+      timeout: 10s
+      retries: 12
+    ports:
+      - "9200:9200"
+    volumes:
+      - os_data:/usr/share/opensearch/data
+
+  # ---------- Metadata / RBAC / registry ----
+  postgres:
+    image: postgres:16-alpine
+    container_name: ulpf_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB || exit 1" ]
+      interval: 15s
+      timeout: 10s
+      retries: 12
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    command: >-
+      postgres -c log-statement=mod
+               -c max_connections=200
+
+volumes:
+  minio_data:
+  os_data:
+  postgres_data:

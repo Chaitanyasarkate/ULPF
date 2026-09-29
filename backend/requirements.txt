@@ -1,0 +1,35 @@
+# ULPF - Universal Log Pre-processing Framework
+# Backend Python dependencies
+# Version pinned for reproducible air-gapped installs.
+
+# Web framework + REST API
+Flask==3.0.3
+Flask-Cors==5.0.0
+flask-sock==0.5.2        # WebSockets for live dashboard push (Phase 7)
+
+# Configuration
+python-dotenv==1.0.1
+
+# Streaming (Kafka client)
+kafka-python>=2.0.2
+
+# Storage clients
+opensearch-py==2.7.1
+minio==7.2.20
+psycopg2-binary==2.9.10  # PostgreSQL driver
+
+# Normalization & parsing
+PyYAML==6.0.3
+grok==1.15              # Grok-style pattern matching (Phase 3)
+
+# Security
+PyJWT==2.9.0
+bcrypt==4.2.0
+cryptography==43.0.1
+
+# AI-assisted parser generator (OPTIONAL, Phase 9)
+openai==1.45.1
+
+# Development / testing
+pytest==8.3.3
+pytest-cov==5.0.0
